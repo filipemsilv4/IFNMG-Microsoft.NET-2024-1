@@ -74,16 +74,16 @@ namespace Exercicio4
             while (!int.TryParse(Console.ReadLine(), out b)){
                 Console.WriteLine("Invalid number, try again:");
             }
-            //Console.WriteLine("The maximum value is: " + Math.Max(a, b));
-            switch (a > b){
-                case true:
+            
+            switch (a.CompareTo(b)){
+                case 0:
+                    Console.WriteLine("The numbers are equal");
+                    break;
+                case 1:
                     Console.WriteLine("The maximum value is: " + a);
                     break;
-                case false:
+                case -1:
                     Console.WriteLine("The maximum value is: " + b);
-                    break;
-                default:
-                    Console.WriteLine("The numbers are equal");
                     break;
             }
         }
