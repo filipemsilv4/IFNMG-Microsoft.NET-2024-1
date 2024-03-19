@@ -53,13 +53,12 @@ class Calculator {
     }
 
     public double CalculateStandardDeviation(){
-        CalculateAverage();
-        standardDeviation = Math.Sqrt(Numbers.Average(v => Math.Pow(v - average, 2)));
+        standardDeviation = Math.Sqrt(Numbers.Average(v => Math.Pow(v - CalculateAverage(), 2)));
         return standardDeviation;
     }
 
     public override string ToString(){
-        return $"Average: {average}\nStandard Deviation: {standardDeviation}";
+        return $"Average: {CalculateAverage()}\nStandard Deviation: {CalculateStandardDeviation()}";
     }
 
     public void Clear(){
