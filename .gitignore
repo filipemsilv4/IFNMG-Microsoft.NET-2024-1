@@ -6,6 +6,10 @@
 # dotenv files
 .env
 
+# Ignore compilation and debugging files in all C# projects
+**/bin/
+**/obj/
+
 # User-specific files
 *.rsuser
 *.suo
