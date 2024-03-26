@@ -10,6 +10,10 @@
 **/bin/
 **/obj/
 
+# I have multiple "ExercicioX" projects, so I need to ignore all of them
+Exercicio*/bin/Debug
+Exercicio*/obj/Debug
+
 # User-specific files
 *.rsuser
 *.suo
