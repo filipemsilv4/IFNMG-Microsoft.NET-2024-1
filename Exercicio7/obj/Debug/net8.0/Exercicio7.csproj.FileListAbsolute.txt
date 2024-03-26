@@ -1,0 +1,15 @@
+/Users/filiPC/Developer/GitHub/IFNMG-Microsoft.NET-2024-1/Exercicio7/obj/Debug/net8.0/Exercicio7.GeneratedMSBuildEditorConfig.editorconfig
+/Users/filiPC/Developer/GitHub/IFNMG-Microsoft.NET-2024-1/Exercicio7/obj/Debug/net8.0/Exercicio7.AssemblyInfoInputs.cache
+/Users/filiPC/Developer/GitHub/IFNMG-Microsoft.NET-2024-1/Exercicio7/obj/Debug/net8.0/Exercicio7.AssemblyInfo.cs
+/Users/filiPC/Developer/GitHub/IFNMG-Microsoft.NET-2024-1/Exercicio7/obj/Debug/net8.0/Exercicio7.csproj.CoreCompileInputs.cache
+/Users/filiPC/Developer/GitHub/IFNMG-Microsoft.NET-2024-1/Exercicio7/obj/Debug/net8.0/Exercicio7.sourcelink.json
+/Users/filiPC/Developer/GitHub/IFNMG-Microsoft.NET-2024-1/Exercicio7/bin/Debug/net8.0/Exercicio7
+/Users/filiPC/Developer/GitHub/IFNMG-Microsoft.NET-2024-1/Exercicio7/bin/Debug/net8.0/Exercicio7.deps.json
+/Users/filiPC/Developer/GitHub/IFNMG-Microsoft.NET-2024-1/Exercicio7/bin/Debug/net8.0/Exercicio7.runtimeconfig.json
+/Users/filiPC/Developer/GitHub/IFNMG-Microsoft.NET-2024-1/Exercicio7/bin/Debug/net8.0/Exercicio7.dll
+/Users/filiPC/Developer/GitHub/IFNMG-Microsoft.NET-2024-1/Exercicio7/bin/Debug/net8.0/Exercicio7.pdb
+/Users/filiPC/Developer/GitHub/IFNMG-Microsoft.NET-2024-1/Exercicio7/obj/Debug/net8.0/Exercicio7.dll
+/Users/filiPC/Developer/GitHub/IFNMG-Microsoft.NET-2024-1/Exercicio7/obj/Debug/net8.0/refint/Exercicio7.dll
+/Users/filiPC/Developer/GitHub/IFNMG-Microsoft.NET-2024-1/Exercicio7/obj/Debug/net8.0/Exercicio7.pdb
+/Users/filiPC/Developer/GitHub/IFNMG-Microsoft.NET-2024-1/Exercicio7/obj/Debug/net8.0/Exercicio7.genruntimeconfig.cache
+/Users/filiPC/Developer/GitHub/IFNMG-Microsoft.NET-2024-1/Exercicio7/obj/Debug/net8.0/ref/Exercicio7.dll
