@@ -22,7 +22,7 @@ using System;
 
 class Calculator {
     private void validate(string num_a, string num_b, string operation){
-        if (num_a == null || num_b == null || operation == null){
+        if (num_a == null || num_b == null || operation == null || num_a == "" || num_b == "" || operation == ""){
             throw new ArgumentNullException("Keep your null values inside your public static void. I won't tolerate them here.");
         }
 
