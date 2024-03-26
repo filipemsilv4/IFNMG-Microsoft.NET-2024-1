@@ -20,8 +20,6 @@ Division by zero
 
 using System;
 
-
-
 class Calculator {
     private void validate(string num_a, string num_b, string operation){
         if (num_a == null || num_b == null || operation == null){
