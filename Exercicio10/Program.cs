@@ -32,7 +32,7 @@ namespace Exercicio10
             {
                 1 => new EnglishPangram(sentence),
                 2 => new PortuguesePangram(sentence),
-                _ => throw new InvalidOperationException("Invalid language selected")
+                _ => throw new InvalidOperationException("How did we get here?")
             };
 
             Console.WriteLine(pangram.IsPangram() ? "It's a pangram" : "It's not a pangram");
