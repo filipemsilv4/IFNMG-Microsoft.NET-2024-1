@@ -1,7 +1,46 @@
 ﻿@page "/tarefas"
+@rendermode InteractiveServer
 
 <PageTitle>Tarefas</PageTitle>
 
 <h1>Tarefas</h1>
-
 Welcome to your new tarefas.
+<ul>
+    @foreach (var tarefa in tarefas){
+        <li>
+            <input type="checkbox" @bind=tarefa.Concluido/>
+            @(" " + tarefa.Titulo)
+        </li>
+    }
+</ul>
+<input placeholder="Nova tarefa" @bind="novaTarefa" @oninput="ValidateInput" />
+<button @onclick="AdicionarTarefa">Adicionar</button>
+
+@if (string.IsNullOrWhiteSpace(novaTarefa))
+{
+    <p style="color: red;">Por favor, insira uma tarefa.</p>
+}
+
+@code {
+    private List<Item> tarefas = new();
+    private string? novaTarefa;
+
+    private void AdicionarTarefa(){
+        if (!string.IsNullOrWhiteSpace(novaTarefa)){
+            tarefas.Add(new Item(novaTarefa));
+            novaTarefa = string.Empty;
+        }
+    }
+
+    private void ValidateInput(ChangeEventArgs e){
+        novaTarefa = e.Value?.ToString();
+    }
+
+    public class Item{
+        public string? Titulo { get; set; }
+        public bool Concluido { get; set; } = false;
+        public Item(string Titulo) {
+            this.Titulo = Titulo;
+        }
+    }
+}
