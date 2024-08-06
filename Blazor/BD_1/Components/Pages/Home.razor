@@ -2,81 +2,116 @@
 @inject ProdutoServices service
 @rendermode InteractiveServer
 
-<h1>InfoTech Store</h1>
+<h1 class="text-center my-4">InfoTech Store</h1>
 <div class="container">
     <div class="row mb-4">
-        <div class="col-md-6">
+        <div class="col-md-6 mx-auto">
             <h2>Adicionar Novo Produto</h2>
             <EditForm Model="@novoProduto" OnValidSubmit="HandleValidSubmit">
                 <DataAnnotationsValidator />
                 <ValidationSummary />
 
-                <div class="form-group">
+                <div class="form-group mb-3">
                     <label for="nome">Nome:</label>
                     <InputText id="nome" @bind-Value="novoProduto.Nome" class="form-control" />
                 </div>
 
-                <div class="form-group">
+                <div class="form-group mb-3">
                     <label for="preco">Preço:</label>
                     <InputNumber id="preco" @bind-Value="novoProduto.Preço" class="form-control" />
                 </div>
 
-                <div class="form-group">
+                <div class="form-group mb-3">
                     <label for="quant">Quantidade:</label>
                     <InputNumber id="quant" @bind-Value="novoProduto.Quant" class="form-control" />
                 </div>
 
-                <div class="form-group">
+                <div class="form-group mb-3">
                     <label for="descr">Descrição:</label>
                     <InputTextArea id="descr" @bind-Value="novoProduto.Descr" class="form-control" />
                 </div>
 
-                <button type="submit" class="btn btn-primary mt-2">Adicionar Produto</button>
+                <button type="submit" class="btn btn-primary w-100">Adicionar Produto</button>
             </EditForm>
         </div>
     </div>
 
-    <div class="row bg-light">
-        <table class="table table-bordered">
-            <thead class="thead-dark">
-                <tr>
-                    <th>Id</th>
-                    <th>Nome</th>
-                    <th>Preço</th>
-                    <th>Quantidade</th>
-                    <th>Descrição</th>
-                    <th>Ações</th>
-                </tr>
-            </thead>
-            <tbody>
-                @if (Produtos.Any())
-                {
-                    @foreach (var prod in Produtos)
+    <div class="row">
+        <h2>Produtos</h2>
+        <div class="col-12 table-responsive">
+            <table class="table table-striped table-bordered">
+                <thead class="thead-dark">
+                    <tr>
+                        <th>Id</th>
+                        <th>Nome</th>
+                        <th>Preço</th>
+                        <th>Quantidade</th>
+                        <th>Descrição</th>
+                        <th>Ações</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (Produtos.Any())
                     {
-                        <tr>
-                            <td>@prod.Id</td>
-                            <td>@prod.Nome</td>
-                            <td>@prod.Preço</td>
-                            <td>@prod.Quant</td>
-                            <td>@prod.Descr</td>
-                            <td>
-                                <button class="btn btn-danger" @onclick="(()=>ApagaProduto(prod))">Deletar</button> 
-                            </td>
-                        </tr>
+                        @foreach (var prod in Produtos)
+                        {
+                            <tr>
+                                <td>@prod.Id</td>
+                                <td>@prod.Nome</td>
+                                <td>@prod.Preço.ToString("C")</td>
+                                <td>@prod.Quant</td>
+                                <td>@prod.Descr</td>
+                                <td>
+                                    <button class="btn btn-danger btn-sm" @onclick="(() => ConfirmaRemocao(prod))">Deletar</button> 
+                                </td>
+                            </tr>
+                        }
                     }
-                }
-                else
-                {
-                    <tr><td colspan="6"><strong>Nenhum produto disponível</strong></td></tr>
-                }
-            </tbody>
-        </table>
+                    else
+                    {
+                        <tr><td colspan="6" class="text-center"><strong>Nenhum produto disponível</strong></td></tr>
+                    }
+                </tbody>
+            </table>
+        </div>
     </div>
 </div>
+
+@if (showConfirmation)
+{
+    <div class="modal" tabindex="-1" style="display:block; background-color: rgba(0,0,0,0.5);">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Confirmar Remoção</h5>
+                    <button type="button" class="btn-close" @onclick="CancelaRemocao"></button>
+                </div>
+                <div class="modal-body">
+                    <p>Tem certeza que deseja remover o item "@produtoParaRemover?.Nome"?</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" @onclick="CancelaRemocao">Cancelar</button>
+                    <button type="button" class="btn btn-danger" @onclick="ConfirmaRemocaoFinal">Remover</button>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+@if (!string.IsNullOrEmpty(mensagemSucesso))
+{
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        @mensagemSucesso
+        <button type="button" class="btn-close" @onclick="(() => mensagemSucesso = string.Empty)"></button>
+    </div>
+}
 
 @code {
     List<Produto> Produtos = new List<Produto>();
     Produto novoProduto = new Produto();
+    bool showConfirmation = false;
+    Produto? produtoParaRemover;
+    string mensagemSucesso = string.Empty;
 
     protected override async Task OnInitializedAsync()
     {
@@ -88,9 +123,28 @@
         Produtos = await service.RetornaProdutoAsync();
     }
 
-    private async Task ApagaProduto(Produto prod){
-        await service.DeleteProductAsync(prod);
-        await AtualizaProdutos();
+    private void ConfirmaRemocao(Produto prod)
+    {
+        produtoParaRemover = prod;
+        showConfirmation = true;
+    }
+
+    private void CancelaRemocao()
+    {
+        showConfirmation = false;
+        produtoParaRemover = null;
+    }
+
+    private async Task ConfirmaRemocaoFinal()
+    {
+        if (produtoParaRemover != null)
+        {
+            await service.DeleteProductAsync(produtoParaRemover);
+            await AtualizaProdutos();
+            mensagemSucesso = $"Item '{produtoParaRemover.Nome}' removido com sucesso.";
+            showConfirmation = false;
+            produtoParaRemover = null;
+        }
     }
 
     private async Task HandleValidSubmit()
@@ -99,8 +153,10 @@
         novoProduto = new Produto(); // Reset the form
     }
 
-    private async Task AdicionaProduto(Produto prod){
+    private async Task AdicionaProduto(Produto prod)
+    {
         await service.AddProductAsync(prod);
         await AtualizaProdutos();
+        mensagemSucesso = $"Produto '{prod.Nome}' adicionado com sucesso.";
     }
 }
