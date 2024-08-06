@@ -1,0 +1,106 @@
+﻿@page "/"
+@inject ProdutoServices service
+@rendermode InteractiveServer
+
+<h1>InfoTech Store</h1>
+<div class="container">
+    <div class="row mb-4">
+        <div class="col-md-6">
+            <h2>Adicionar Novo Produto</h2>
+            <EditForm Model="@novoProduto" OnValidSubmit="HandleValidSubmit">
+                <DataAnnotationsValidator />
+                <ValidationSummary />
+
+                <div class="form-group">
+                    <label for="nome">Nome:</label>
+                    <InputText id="nome" @bind-Value="novoProduto.Nome" class="form-control" />
+                </div>
+
+                <div class="form-group">
+                    <label for="preco">Preço:</label>
+                    <InputNumber id="preco" @bind-Value="novoProduto.Preço" class="form-control" />
+                </div>
+
+                <div class="form-group">
+                    <label for="quant">Quantidade:</label>
+                    <InputNumber id="quant" @bind-Value="novoProduto.Quant" class="form-control" />
+                </div>
+
+                <div class="form-group">
+                    <label for="descr">Descrição:</label>
+                    <InputTextArea id="descr" @bind-Value="novoProduto.Descr" class="form-control" />
+                </div>
+
+                <button type="submit" class="btn btn-primary mt-2">Adicionar Produto</button>
+            </EditForm>
+        </div>
+    </div>
+
+    <div class="row bg-light">
+        <table class="table table-bordered">
+            <thead class="thead-dark">
+                <tr>
+                    <th>Id</th>
+                    <th>Nome</th>
+                    <th>Preço</th>
+                    <th>Quantidade</th>
+                    <th>Descrição</th>
+                    <th>Ações</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Produtos.Any())
+                {
+                    @foreach (var prod in Produtos)
+                    {
+                        <tr>
+                            <td>@prod.Id</td>
+                            <td>@prod.Nome</td>
+                            <td>@prod.Preço</td>
+                            <td>@prod.Quant</td>
+                            <td>@prod.Descr</td>
+                            <td>
+                                <button class="btn btn-danger" @onclick="(()=>ApagaProduto(prod))">Deletar</button> 
+                            </td>
+                        </tr>
+                    }
+                }
+                else
+                {
+                    <tr><td colspan="6"><strong>Nenhum produto disponível</strong></td></tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+@code {
+    List<Produto> Produtos = new List<Produto>();
+    Produto novoProduto = new Produto();
+
+    protected override async Task OnInitializedAsync()
+    {
+        await AtualizaProdutos();
+    }
+
+    private async Task AtualizaProdutos()
+    {
+        Produtos = await service.RetornaProdutoAsync();
+    }
+
+    private async Task ApagaProduto(Produto prod){
+        await service.DeleteProductAsync(prod);
+        await AtualizaProdutos();
+    }
+
+    private async Task HandleValidSubmit()
+    {
+        await AdicionaProduto(novoProduto);
+        novoProduto = new Produto(); // Reset the form
+    }
+
+    private async Task AdicionaProduto(Produto prod){
+        await service.AddProductAsync(prod);
+        await AtualizaProdutos();
+    }
+}
